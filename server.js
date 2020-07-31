@@ -1,8 +1,11 @@
-import { create, router as _router, defaults } from 'json-server';
+import jsonServer from 'json-server';
+import path from 'path';
 
-const server = create();
-const router = _router('db.json');
-const middlewares = defaults();
+const server = jsonServer.create();
+const router = jsonServer.router('./src/data/db.json');
+const middlewares = jsonServer.defaults({
+  static: path.join(path.resolve(), './node_modules/json-server/public'),
+});
 
 const port = process.env.PORT || 8080;
 
