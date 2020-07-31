@@ -3,16 +3,17 @@ import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
+import useForm from '../../../hocks/useForm';
+import categoriaRepository from '../../../repositories/categorias';
 
 function CadastroCategoria() {
   const categoriaInicial = {
-    nome: '',
+    titulo: '',
     descricao: '',
     cor: '',
   };
+  const { values: categoria, handleChange, clearForm } = useForm(categoriaInicial);
   const [listaCategoria, setListaCategoria] = useState([]);
-  const [categoria, setCategoria] = useState(categoriaInicial);
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -21,47 +22,33 @@ function CadastroCategoria() {
       categoria,
     ]);
 
-    setCategoria(categoriaInicial);
-  };
-
-  const handleChange = (event) => {
-    const key = event.target.getAttribute('name');
-    const { value } = event.target;
-
-    setCategoria({
-      ...categoria,
-      [key]: value,
-    });
+    clearForm();
   };
 
   useEffect(() => {
-    if (window.location.href.includes('localhost')) {
-      const URL = 'http://localhost:8080/categorias';
-      fetch(URL)
-        .then(async (response) => {
-          if (response.ok) {
-            const resposta = await response.json();
-            setListaCategoria(resposta);
-            return;
-          }
-          throw new Error('Não foi possível pegar os dados');
-        });
-    }
+    categoriaRepository.getAll()
+      .then((response) => {
+        setListaCategoria(response);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err.message);
+      });
   }, []);
 
   return (
     <PageDefault>
       <h1>
         Cadastro de Categoria:
-        {categoria.nome}
+        {categoria.titulo}
       </h1>
 
       <form onSubmit={handleSubmit}>
         <FormField
-          label="Nome da Categoria"
+          label="Título"
           type="text"
-          name="nome"
-          value={categoria.nome}
+          name="titulo"
+          value={categoria.titulo}
           onChange={handleChange}
         />
 
@@ -86,10 +73,12 @@ function CadastroCategoria() {
         </Button>
       </form>
 
+      {listaCategoria.length === 0 && (<div>Loading...</div>)}
+
       <ul>
         {listaCategoria.map((categoria) => (
-          <li key={categoria.nome}>
-            {categoria.nome}
+          <li key={categoria.titulo}>
+            {categoria.titulo}
           </li>
         ))}
       </ul>
