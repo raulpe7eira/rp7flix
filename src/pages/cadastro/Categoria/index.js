@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
+import Button from '../../../components/Button';
 
 function CadastroCategoria() {
   const categoriaInicial = {
@@ -12,7 +13,7 @@ function CadastroCategoria() {
   const [listaCategoria, setListaCategoria] = useState([]);
   const [categoria, setCategoria] = useState(categoriaInicial);
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     setListaCategoria([
@@ -23,9 +24,9 @@ function CadastroCategoria() {
     setCategoria(categoriaInicial);
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     const key = event.target.getAttribute('name');
-    const value = event.target.value;
+    const { value } = event.target;
 
     setCategoria({
       ...categoria,
@@ -33,9 +34,27 @@ function CadastroCategoria() {
     });
   };
 
+  useEffect(() => {
+    if (window.location.href.includes('localhost')) {
+      const URL = 'http://localhost:8080/categorias';
+      fetch(URL)
+        .then(async (response) => {
+          if (response.ok) {
+            const resposta = await response.json();
+            setListaCategoria(resposta);
+            return;
+          }
+          throw new Error('Não foi possível pegar os dados');
+        });
+    }
+  }, []);
+
   return (
     <PageDefault>
-      <h1>Cadastro de Categoria: {categoria.nome}</h1>
+      <h1>
+        Cadastro de Categoria:
+        {categoria.nome}
+      </h1>
 
       <form onSubmit={handleSubmit}>
         <FormField
@@ -48,7 +67,7 @@ function CadastroCategoria() {
 
         <FormField
           label="Descrição"
-          type="text"
+          type="textarea"
           name="descricao"
           value={categoria.descricao}
           onChange={handleChange}
@@ -62,19 +81,17 @@ function CadastroCategoria() {
           onChange={handleChange}
         />
 
-        <button>
+        <Button>
           Cadastrar
-        </button>
+        </Button>
       </form>
 
       <ul>
-        {listaCategoria.map((categoria, indice) => {
-          return (
-            <li key={`${categoria}#${indice}`}>
-              {categoria.nome}
-            </li>
-          );
-        })}
+        {listaCategoria.map((categoria) => (
+          <li key={categoria.nome}>
+            {categoria.nome}
+          </li>
+        ))}
       </ul>
 
       <Link to="/">
