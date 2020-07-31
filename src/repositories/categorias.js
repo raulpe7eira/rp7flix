@@ -8,7 +8,7 @@ const getAll = () => fetch(CATEGORIAS_BASE_URL)
       const responseJson = await response.json();
       return responseJson;
     }
-    throw new Error('Não foi possível pegar os dados');
+    throw new Error('Não foi possível pegar os categorias');
   });
 
 const getAllWithVideos = () => fetch(`${CATEGORIAS_BASE_URL}?_embed=videos`)
@@ -17,7 +17,7 @@ const getAllWithVideos = () => fetch(`${CATEGORIAS_BASE_URL}?_embed=videos`)
       const responseJson = await response.json();
       return responseJson;
     }
-    throw new Error('Não foi possível pegar os dados');
+    throw new Error('Não foi possível pegar os categorias');
   });
 
 export default {

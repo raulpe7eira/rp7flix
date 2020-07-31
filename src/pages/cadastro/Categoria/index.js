@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import PageDefault from '../../../components/PageDefault';
-import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
+import FormField from '../../../components/FormField';
+import PageDefault from '../../../components/PageDefault';
 import useForm from '../../../hocks/useForm';
 import categoriaRepository from '../../../repositories/categorias';
 
 function CadastroCategoria() {
-  const categoriaInicial = {
+  const [listaCategoria, setListaCategoria] = useState([]);
+  const { values: categoria, handleChange, clearForm } = useForm({
     titulo: '',
     descricao: '',
     cor: '',
-  };
-  const { values: categoria, handleChange, clearForm } = useForm(categoriaInicial);
-  const [listaCategoria, setListaCategoria] = useState([]);
+  });
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -26,7 +26,8 @@ function CadastroCategoria() {
   };
 
   useEffect(() => {
-    categoriaRepository.getAll()
+    categoriaRepository
+      .getAll()
       .then((response) => {
         setListaCategoria(response);
       })
@@ -38,15 +39,11 @@ function CadastroCategoria() {
 
   return (
     <PageDefault>
-      <h1>
-        Cadastro de Categoria:
-        {categoria.titulo}
-      </h1>
+      <h1>Cadastro de Categoria</h1>
 
       <form onSubmit={handleSubmit}>
         <FormField
           label="Título"
-          type="text"
           name="titulo"
           value={categoria.titulo}
           onChange={handleChange}
@@ -68,7 +65,7 @@ function CadastroCategoria() {
           onChange={handleChange}
         />
 
-        <Button>
+        <Button type="submit">
           Cadastrar
         </Button>
       </form>

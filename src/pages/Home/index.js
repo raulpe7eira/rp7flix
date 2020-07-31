@@ -8,7 +8,8 @@ function Home() {
   const [listaCategoriaWithVideos, setListaCategoriaWithVideos] = useState([]);
 
   useEffect(() => {
-    categoriaRepository.getAllWithVideos()
+    categoriaRepository
+      .getAllWithVideos()
       .then((response) => {
         setListaCategoriaWithVideos(response);
       })
