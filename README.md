@@ -1,3 +1,26 @@
+# Imersão React | RP7Flix App
+
+This repository is the code corresponding to the [imersão react lab](https://www.alura.com.br/imersao-react).
+
+## Installation
+
+1. Install https://nodejs.org.
+2. Clone this project.
+3. Run `npm install`
+
+## Local usage
+
+```bash
+$ npm run dev
+```
+
+## Deploying to the cloud :rocket: 
+
+> - **Frontend:** https://rp7flix.vercel.app
+> - **Backend:** https://rp7flix.herokuapp.com
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
