@@ -20,13 +20,13 @@ function Home() {
   }, []);
 
   return (
-    <PageDefault paddingAll="0 0 50px">
+    <PageDefault inheritColor paddingAll="0 0 50px">
       {listaCategoriaWithVideos.length === 0 && (<div>Loading...</div>)}
 
       {listaCategoriaWithVideos.map((categoria, indice) => {
         if (indice === 0) {
           return (
-            <div key={categoria.id}>
+            <>
               <BannerMain
                 videoTitle={categoria.videos[0].titulo}
                 url={categoria.videos[0].url}
@@ -37,7 +37,7 @@ function Home() {
                 ignoreFirstVideo
                 category={categoria}
               />
-            </div>
+            </>
           );
         }
 
