@@ -1,4 +1,4 @@
-# Imersão React | RP7Flix App
+# Imersão React (1ª Edition) | rp7flix App
 
 This repository is the code corresponding to the [imersão react lab](https://www.alura.com.br/imersao-react).
 
